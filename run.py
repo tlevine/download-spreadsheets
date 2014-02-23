@@ -33,7 +33,7 @@ def main(threads = 50, catalogs = catalogs):
     queue = Queue()
     for catalog in catalogs:
         for dataset in datasets(catalog):
-            queue.put(dataset url)
+            queue.put(portal + '/something/here/' + dataset['datasetid'])
     for i in range(threads):
         Thread(target = worker, args = (queue,)).start()
 
