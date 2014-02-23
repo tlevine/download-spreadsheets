@@ -2,9 +2,9 @@
 from queue import Queue
 from threading import Thread
 
-def get(url):
+def get(url, **kwargs):
     from get import get as _get
-    return _get(url, cachedir = '/ebs/volume')
+    return _get(url, cachedir = '/ebs/volume', **kwargs)
 
 catalogs = [
     'http://data.iledefrance.fr',
@@ -22,16 +22,16 @@ catalogs = [
 def datasets(catalog):
     # Search an OpenDataSoft portal, and add things.
     # I chose OpenDataSoft because they care a lot about metadata.
-    return json.loads(get(catalog + '/api/datasets/1.0/search?rows=1000000'))
+    return json.loads(get(catalog + '/api/datasets/1.0/search?rows=1000000', load = True))
 
 def worker(queue):
     while not queue.empty():
         url = queue.get()
-        get(url)
+        get(url, load = False)
 
 def main(threads = 50, catalogs = catalogs):
     queue = Queue()
-    for catalog in catalogs:
+    for catalog in catalogs[:1]:
         for dataset in datasets(catalog):
             queue.put(portal + '/something/here/' + dataset['datasetid'])
     for i in range(threads):
