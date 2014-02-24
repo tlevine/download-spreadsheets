@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from time import sleep
 import json
 from queue import Queue
 from threading import Thread
@@ -30,7 +31,11 @@ def datasets(catalog):
 def worker(queue):
     while not queue.empty():
         url = queue.get()
-        get(url, load = False)
+        try:
+            get(url, load = False)
+        except:
+            queue.put(url)
+            sleep(10)
 
 def main(threads = 10, catalogs = catalogs):
     args = []
