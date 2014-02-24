@@ -27,6 +27,8 @@ def manage(worker, threads = 10, catalogs = download.catalogs):
 def main():
 #   manage(download.worker)
     datasets = manage(examine.worker)
+    while not datasets.empty():
+        print(datasets.get())
 
 if __name__ == '__main__':
     main()

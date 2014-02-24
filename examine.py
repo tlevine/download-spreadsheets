@@ -14,4 +14,6 @@ def worker(read_queue, write_queue):
         write_queue.put(dataset)
 
 def featurize(fp):
-    return {}
+    return {
+        'primary_keys': fromcsv(fp, delimiter = ';')
+    }
