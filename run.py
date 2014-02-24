@@ -3,6 +3,8 @@ from queue import Queue
 from threading import Thread
 import random
 
+from special_snowflake import fromcsv
+
 import download
 
 def main(threads = 10, catalogs = download.catalogs):
