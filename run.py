@@ -2,6 +2,7 @@
 import json
 from queue import Queue
 from threading import Thread
+import random
 
 def get(url, **kwargs):
     from get import get as _get
@@ -18,6 +19,7 @@ catalogs = [
     'http://pod.opendatasoft.com',
     'http://dataratp.opendatasoft.com',
     'http://public.opendatasoft.com',
+    'http://data.sncf.com',
 ]
 
 def datasets(catalog):
@@ -30,11 +32,15 @@ def worker(queue):
         url = queue.get()
         get(url, load = False)
 
-def main(threads = 50, catalogs = catalogs):
-    queue = Queue()
+def main(threads = 10, catalogs = catalogs):
+    args = []
     for catalog in catalogs:
         for dataset in datasets(catalog):
-            queue.put('%s/explore/dataset/%s/download?format=csv' % (catalog, dataset['datasetid']))
+            args.append((catalog, dataset['datasetid']))
+    random.shuffle(args)
+    queue = Queue()
+    for a in args:
+        queue.put('%s/explore/dataset/%s/download?format=csv' % a)
     for i in range(threads):
         Thread(target = worker, args = (queue,)).start()
 
