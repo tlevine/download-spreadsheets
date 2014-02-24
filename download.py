@@ -25,8 +25,10 @@ def datasets(catalog):
 
 def worker(queue):
     while not queue.empty():
-        url = queue.get()
+        catalog, dataset = queue.get()
+        args = catalog, dataset['datasetid']
+        url = '%s/explore/dataset/%s/download?format=csv' % args
         try:
             get(url, load = False)
         except:
-            queue.put(url)
+            queue.put((catalog, dataset))

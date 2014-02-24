@@ -3,28 +3,21 @@ from queue import Queue
 from threading import Thread
 import random
 
-from special_snowflake import fromcsv
-
 import download
 
-def main(threads = 10, catalogs = download.catalogs):
+def manage(worker, threads = 10, catalogs = download.catalogs):
     # Download
     args = []
     for catalog in catalogs:
         for dataset in download.datasets(catalog):
-            args.append((catalog, dataset['datasetid']))
+            args.append((catalog, dataset))
     random.shuffle(args)
     queue = Queue()
     for a in args:
-        queue.put('%s/explore/dataset/%s/download?format=csv' % a)
+        queue.put(args)
     for i in range(threads):
-        Thread(target = download.worker, args = (queue,)).start()
-
-    # Wait for that to finish
-    while not queue.empty():
-        pass
-
-    # Do stuff
+        Thread(target = worker, args = (queue,)).start()
 
 if __name__ == '__main__':
-    main()
+#   manage(download.worker)
+    manage(examine.worker)
