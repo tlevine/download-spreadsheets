@@ -12,12 +12,21 @@ def manage(worker, threads = 10, catalogs = download.catalogs):
         for dataset in download.datasets(catalog):
             args.append((catalog, dataset))
     random.shuffle(args)
-    queue = Queue()
+
+    read_queue = Queue()
     for a in args:
-        queue.put(args)
+        read_queue.put(args)
+
     for i in range(threads):
-        Thread(target = worker, args = (queue,)).start()
+        Thread(target = worker, args = (read_queue,write_queue)).start()
+    while not read_queue.empty():
+        pass
+
+    return write_queue
+
+def main():
+#   manage(download.worker)
+    datasets = manage(examine.worker)
 
 if __name__ == '__main__':
-#   manage(download.worker)
-    manage(examine.worker)
+    main()

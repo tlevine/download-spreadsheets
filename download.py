@@ -23,7 +23,7 @@ def datasets(catalog):
     # I chose OpenDataSoft because they care a lot about metadata.
     return json.loads(get(catalog + '/api/datasets/1.0/search?rows=1000000', load = True))['datasets']
 
-def worker(queue):
+def worker(queue, _):
     while not queue.empty():
         catalog, dataset = queue.get()
         args = catalog, dataset['datasetid']
