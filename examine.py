@@ -3,8 +3,8 @@ from io import StringIO
 from special_snowflake import fromcsv
 
 def worker(read_queue, write_queue):
-    while not queue.empty():
-        catalog, dataset = queue.get()
+    while not read_queue.empty():
+        catalog, dataset = read_queue.get()
         raw = get(url, load = True)
 
         dataset['catalog'] = catalog

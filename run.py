@@ -3,7 +3,7 @@ from queue import Queue
 from threading import Thread
 import random
 
-import download
+import download, examine
 
 def manage(worker, threads = 10, catalogs = download.catalogs):
     # Download
@@ -17,6 +17,7 @@ def manage(worker, threads = 10, catalogs = download.catalogs):
     for a in args:
         read_queue.put(args)
 
+    write_queue = Queue()
     for i in range(threads):
         Thread(target = worker, args = (read_queue,write_queue)).start()
     while not read_queue.empty():
