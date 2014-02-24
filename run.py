@@ -19,7 +19,7 @@ catalogs = [
     'http://pod.opendatasoft.com',
     'http://dataratp.opendatasoft.com',
     'http://public.opendatasoft.com',
-#   'http://data.sncf.com',
+    'http://ressources.data.sncf.com',
 ]
 
 def datasets(catalog):
