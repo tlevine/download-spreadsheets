@@ -1,11 +1,6 @@
 import json
 
-import settings
-
-def get(url, **kwargs):
-    import os
-    from get import get as _get
-    return _get(url, cachedir = settings.cachedir, **kwargs)
+from settings import get
 
 catalogs = [
     'http://data.iledefrance.fr',
@@ -24,7 +19,7 @@ catalogs = [
 def datasets(catalog):
     # Search an OpenDataSoft portal, and add things.
     # I chose OpenDataSoft because they care a lot about metadata.
-    return json.loads(get(catalog + '/api/datasets/1.0/search?rows=1000000', cachedir = settings.cachedir, load = True))['datasets']
+    return json.loads(get(catalog + '/api/datasets/1.0/search?rows=1000000', load = True))['datasets']
 
 def worker(queue, _):
     while not queue.empty():
