@@ -16,7 +16,7 @@ def manage(worker, n_threads = 10, catalogs = download.catalogs):
 
     read_queue = Queue()
     for a in args:
-        read_queue.put(args)
+        read_queue.put(a)
 
     write_queue = Queue()
     threads = []
