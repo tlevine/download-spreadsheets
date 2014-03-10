@@ -12,7 +12,7 @@ def worker(read_queue, write_queue):
         raw = get(url, load = True)
 
         dataset['catalog'] = catalog
-        with StringIO(raw) as fp:
+        with StringIO(raw.decode('utf-8')) as fp:
             dataset.update(featurize(fp))
 
         write_queue.put(dataset)
