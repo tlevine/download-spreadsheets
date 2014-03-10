@@ -19,7 +19,8 @@ catalogs = [
 def datasets(catalog):
     # Search an OpenDataSoft portal, and add things.
     # I chose OpenDataSoft because they care a lot about metadata.
-    return json.loads(get(catalog + '/api/datasets/1.0/search?rows=1000000', load = True))['datasets']
+    raw = get(catalog + '/api/datasets/1.0/search?rows=1000000', load = True)
+    return json.loads(raw.decode('utf-8'))['datasets']
 
 def worker(queue, _):
     while not queue.empty():
