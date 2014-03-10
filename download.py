@@ -1,8 +1,10 @@
 import json
 
 def get(url, **kwargs):
+    import os
     from get import get as _get
-    return _get(url, cachedir = 'data', **kwargs)
+    cachedir = os.path.join(os.environ['HOME'], 'dadawarehouse.thomaslevine.com', 'featured-spreadsheets-data')
+    return _get(url, cachedir = cachedir, **kwargs)
 
 catalogs = [
     'http://data.iledefrance.fr',
