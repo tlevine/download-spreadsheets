@@ -6,7 +6,7 @@ import random
 import download, examine
 
 def manage(worker, n_threads = 10, catalogs = download.catalogs):
-    'Manage a bunch of worker threads.'
+    'Manage a bunch of worker threads, and generate their results.'
     # Download in random order
     args = []
     for catalog in catalogs:
@@ -38,7 +38,8 @@ def main_download():
         pass
 
 def main():
-    datasets = manage(examine.worker)
+    for dataset in manage(examine.worker):
+        print(dataset)
 
 if __name__ == '__main__':
     main()
