@@ -2,10 +2,12 @@ from io import StringIO
 
 from special_snowflake import fromcsv
 
+import settings
+
 def worker(read_queue, write_queue):
     while not read_queue.empty():
         catalog, dataset = read_queue.get()
-        raw = get(url, load = True)
+        raw = get(url, cachedir = settings.cachedir, load = True)
 
         dataset['catalog'] = catalog
         with StringIO(raw) as fp:

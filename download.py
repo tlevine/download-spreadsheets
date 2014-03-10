@@ -1,10 +1,11 @@
 import json
 
+import settings
+
 def get(url, **kwargs):
     import os
     from get import get as _get
-    cachedir = os.path.join(os.environ['HOME'], 'dadawarehouse.thomaslevine.com', 'featured-spreadsheets-data')
-    return _get(url, cachedir = cachedir, **kwargs)
+    return _get(url, cachedir = settings.cachedir, **kwargs)
 
 catalogs = [
     'http://data.iledefrance.fr',
@@ -23,7 +24,7 @@ catalogs = [
 def datasets(catalog):
     # Search an OpenDataSoft portal, and add things.
     # I chose OpenDataSoft because they care a lot about metadata.
-    return json.loads(get(catalog + '/api/datasets/1.0/search?rows=1000000', load = True))['datasets']
+    return json.loads(get(catalog + '/api/datasets/1.0/search?rows=1000000', cachedir = settings.cachedir, load = True))['datasets']
 
 def worker(queue, _):
     while not queue.empty():
