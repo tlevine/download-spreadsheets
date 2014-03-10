@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-from queue import Queue
+from queue import Queue, Empty
 from threading import Thread
 import random
 
 import download, examine
 
-def manage(worker, threads = 10, catalogs = download.catalogs):
-    # Download
+def manage(worker, n_threads = 10, catalogs = download.catalogs):
+    'Manage a bunch of worker threads.'
+    # Download in random order
     args = []
     for catalog in catalogs:
         for dataset in download.datasets(catalog):
@@ -18,18 +19,26 @@ def manage(worker, threads = 10, catalogs = download.catalogs):
         read_queue.put(args)
 
     write_queue = Queue()
-    for i in range(threads):
-        Thread(target = worker, args = (read_queue,write_queue)).start()
-    while not read_queue.empty():
+    threads = []
+    for i in range(n_threads):
+        threads.append(Thread(target = worker, args = (read_queue,write_queue)))
+        threads[-1].start()
+
+    while not (read_queue.empty() and write_queue.empty() and set(t.is_alive() for t in threads) == {False}):
+        try:
+            x = write_queue.get_nowait()
+        except Empty:
+            pass
+        else:
+            yield x
+
+def main_download():
+    'Run a download and exit.'
+    for _ in manage(download.worker):
         pass
 
-    return write_queue
-
 def main():
-#   manage(download.worker)
     datasets = manage(examine.worker)
-    while not datasets.empty():
-        print(datasets.get())
 
 if __name__ == '__main__':
     main()
