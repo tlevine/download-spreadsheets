@@ -21,18 +21,25 @@ def worker(read_queue, write_queue):
 
         dataset['catalog'] = catalog
         with StringIO(raw.decode('utf-8')) as fp:
-            dataset.update(featurize(fp, url))
+            dataset['unique_indices'] = set(unique_indices(fp, url))
 
         write_queue.put(dataset)
 
-def featurize(fp, url):
+def unique_indices(fp, url):
     try:
-        pk = fromcsv(fp, delimiter = ';')
-    except:
-        not_file = StringIO()
-        print_exc(file = not_file)
-        logger.error('Error featurizing %s:\n\n%s\n' % (url, not_file.getvalue()))
-        pk = set()
-    return {
-        'primary_keys': pk
-    }
+        header_raw = next(fp)
+    except StopIteration:
+        header_raw = []
+    else:
+        header = header_raw.split(';')
+        if header == ['']:
+            header = []
+    for n_columns in range(1, len(header) + 1):
+        try:
+            pk = fromcsv(fp, delimiter = ';', n_columns = n_columns, only_adjacent = True)
+        except:
+            not_file = StringIO()
+            print_exc(file = not_file)
+            logger.error('Error featurizing %s:\n\n%s\n' % (url, not_file.getvalue()))
+            pk = set()
+        yield pk
