@@ -36,7 +36,9 @@ def unique_indices(fp, url):
         except StopIteration:
             pass
         except ValueError as e:
-            if 'columns' not in e.args[0]:
+            if 'columns' in e.args[0]:
+                break
+            else:
                 raise
         except:
             not_file = StringIO()
