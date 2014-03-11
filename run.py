@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 from queue import Queue, Empty
 from threading import Thread
 import random
@@ -43,7 +44,7 @@ def main():
     logger = logging.getLogger('featured-spreadsheets')
     logger.setLevel(logging.DEBUG)
 
-    h1 = logging.FileHandler(os.path.join(directory, "featured-spreadsheets.log"),"w")
+    h1 = logging.FileHandler("featured-spreadsheets.log","w")
     h1.setLevel(logging.DEBUG)
     logger.addHandler(h1)
 

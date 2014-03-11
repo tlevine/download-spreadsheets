@@ -1,5 +1,6 @@
 from io import StringIO
 from logging import getLogger
+from traceback import print_exc
 
 from special_snowflake import fromcsv
 
@@ -26,7 +27,7 @@ def featurize(fp, url):
     except:
         not_file = StringIO()
         print_exc(file = not_file)
-        logger.error('Error featurizing %s:\n\n%s\n' % (query, not_file.getvalue()))
+        logger.error('Error featurizing %s:\n\n%s\n' % (url, not_file.getvalue()))
         pk = set()
     return {
         'primary_keys': pk
