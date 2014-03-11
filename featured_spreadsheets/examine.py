@@ -34,6 +34,7 @@ def unique_indices(fp, url):
         header = header_raw.split(';')
         if header == ['']:
             header = []
+    indices = set()
     for n_columns in range(1, len(header) + 1):
         try:
             pk = fromcsv(fp, delimiter = ';', n_columns = n_columns, only_adjacent = True)
@@ -41,5 +42,5 @@ def unique_indices(fp, url):
             not_file = StringIO()
             print_exc(file = not_file)
             logger.error('Error featurizing %s:\n\n%s\n' % (url, not_file.getvalue()))
-            pk = set()
-        yield pk
+            indices = indices.union(pk)
+    return indices
