@@ -18,6 +18,10 @@ def worker(read_queue, write_queue):
         write_queue.put(dataset)
 
 def featurize(fp):
+    try:
+        pk = fromcsv(fp, delimiter = ';')
+    except:
+        pk = set()
     return {
-        'primary_keys': fromcsv(fp, delimiter = ';')
+        'primary_keys': pk
     }
