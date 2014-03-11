@@ -5,12 +5,16 @@ from traceback import print_exc
 from special_snowflake import fromcsv
 
 from featured_spreadsheets.settings import get
+from featured_spreadsheets.ignore import ignore
 
 logger = getLogger('featured-spreadsheets')
 
 def worker(read_queue, write_queue):
     while not read_queue.empty():
         catalog, dataset = read_queue.get()
+        if ignore(dataset):
+            continue
+
         args = catalog, dataset['datasetid']
         url = '%s/explore/dataset/%s/download?format=csv' % args
         raw = get(url, load = True)
