@@ -4,7 +4,8 @@ from threading import Thread
 import random
 import logging
 
-import download, examine
+import featured_spreadsheets.download as download
+import featured_spreadsheets.examine as examine
 
 def manage(worker, n_threads = 10, catalogs = download.catalogs):
     'Manage a bunch of worker threads, and generate their results.'
