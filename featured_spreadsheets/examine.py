@@ -2,7 +2,7 @@ from io import StringIO
 
 from special_snowflake import fromcsv
 
-from settings import get
+from featured_spreadsheets.settings import get
 
 def worker(read_queue, write_queue):
     while not read_queue.empty():

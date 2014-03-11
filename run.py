@@ -39,7 +39,7 @@ def main_download():
 
 def main():
     for dataset in manage(examine.worker):
-        print(dataset)
+        print(dataset['primary_keys'])
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,6 @@
 import json
 
-from settings import get
+from featured_spreadsheets.settings import get
 
 catalogs = [
     'http://data.iledefrance.fr',
