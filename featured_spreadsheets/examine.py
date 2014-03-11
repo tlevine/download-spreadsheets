@@ -28,19 +28,13 @@ def worker(read_queue, write_queue):
 
 def unique_indices(fp, url):
     position = fp.tell()
-    try:
-        header_raw = next(fp)
-    except StopIteration:
-        header_raw = []
-    else:
-        header = header_raw.split(';')
-        if header == ['']:
-            header = []
     indices = set()
     for n_columns in range(1, 4):
         fp.seek(position, os.SEEK_SET)
         try:
             pk = fromcsv(fp, delimiter = ';', n_columns = n_columns, only_adjacent = True)
+        except StopIteration:
+            pass
         except:
             not_file = StringIO()
             print_exc(file = not_file)
