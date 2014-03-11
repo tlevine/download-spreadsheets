@@ -8,7 +8,7 @@ def test_unique_indices():
     fp = StringIO('a;b;c;d\r\n3;4;5;6')
     observed = unique_indices(fp, 'url is just for logging')
     expected = {
-        ('a',), ('b',), ('c',),
+        ('a',), ('b',), ('c',), ('d',),
         ('a','b'), ('b','c'),('c','d'),
         ('a','b','c'), ('b','c','d'),
     } # only adjacent, max 3
