@@ -36,6 +36,7 @@ def unique_indices(fp, url):
         header = header_raw.split(';')
         if header == ['']:
             header = []
+    indices = set()
     for n_columns in range(1, 4):
         fp.seek(position, os.SEEK_SET)
         try:
