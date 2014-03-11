@@ -35,6 +35,9 @@ def unique_indices(fp, url):
             pk = fromcsv(fp, delimiter = ';', n_columns = n_columns, only_adjacent = True)
         except StopIteration:
             pass
+        except ValueError as e:
+            if 'columns' not in e.args[0]:
+                raise
         except:
             not_file = StringIO()
             print_exc(file = not_file)
