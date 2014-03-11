@@ -21,7 +21,7 @@ def worker(read_queue, write_queue):
 
         dataset['catalog'] = catalog
         with StringIO(raw.decode('utf-8')) as fp:
-            dataset['unique_indices'] = set(unique_indices(fp, url))
+            dataset['unique_indices'] = unique_indices(fp, url)
 
         write_queue.put(dataset)
 
@@ -42,5 +42,6 @@ def unique_indices(fp, url):
             not_file = StringIO()
             print_exc(file = not_file)
             logger.error('Error featurizing %s:\n\n%s\n' % (url, not_file.getvalue()))
+        else:
             indices = indices.union(pk)
     return indices
