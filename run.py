@@ -2,6 +2,7 @@
 from queue import Queue, Empty
 from threading import Thread
 import random
+import logging
 
 import download, examine
 
@@ -38,6 +39,17 @@ def main_download():
         pass
 
 def main():
+    logger = logging.getLogger('featured-spreadsheets')
+    logger.setLevel(logging.DEBUG)
+
+    h1 = logging.FileHandler(os.path.join(directory, "featured-spreadsheets.log"),"w")
+    h1.setLevel(logging.DEBUG)
+    logger.addHandler(h1)
+
+    h2 = logging.StreamHandler()
+    h2.setLevel(logging.ERROR)
+    logger.addHandler(h2)
+
     for dataset in manage(examine.worker):
         print(dataset['primary_keys'])
 
