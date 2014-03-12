@@ -54,6 +54,3 @@ def main():
 
     for dataset in manage(examine.worker):
         logger.info(dataset['unique_indices'])
-
-if __name__ == '__main__':
-    main()
