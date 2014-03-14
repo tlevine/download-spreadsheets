@@ -7,6 +7,7 @@ import logging
 
 import featured_spreadsheets.download as download
 import featured_spreadsheets.examine as examine
+from featured_spreadsheets.graph import Graph
 
 def manage(worker, n_threads = 10, catalogs = download.catalogs):
     'Manage a bunch of worker threads, and generate their results.'
@@ -52,5 +53,7 @@ def main():
     h2.setLevel(logging.ERROR)
     logger.addHandler(h2)
 
+    g = Graph()
     for dataset in manage(examine.worker):
-        logger.info(dataset['unique_indices'])
+        for unique_index in dataset['unique_indices']:
+            graph.add_index(unique_index, dataset)
