@@ -57,6 +57,5 @@ def main():
     g = Graph()
     for dataset in manage(examine.worker):
         g.add_dataset(dataset)
-        break
     with open('graph.p', 'wb') as fp:
-        pickle.dump(fp, g)
+        pickle.dump(g, fp)
