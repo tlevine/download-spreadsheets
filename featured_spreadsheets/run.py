@@ -57,7 +57,7 @@ def main():
     g = Graph()
     for dataset in manage(examine.worker):
         for unique_index in dataset['unique_indices']:
-            graph.add_index(unique_index, dataset)
+            g.add_index(unique_index, dataset)
         break
     with open('graph.p', 'wb') as fp:
         pickle.dump(fp, g)
