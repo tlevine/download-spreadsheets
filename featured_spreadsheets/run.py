@@ -4,6 +4,7 @@ from queue import Queue, Empty
 from threading import Thread
 import random
 import logging
+import pickle
 
 import featured_spreadsheets.download as download
 import featured_spreadsheets.examine as examine
@@ -57,3 +58,6 @@ def main():
     for dataset in manage(examine.worker):
         for unique_index in dataset['unique_indices']:
             graph.add_index(unique_index, dataset)
+        break
+    with open('graph.p', 'wb') as fp:
+        pickle.dump(fp, g)
