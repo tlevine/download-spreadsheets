@@ -1,3 +1,3 @@
 get-cached
-special_snowflake
+special_snowflake==0.0.3
 networkx
